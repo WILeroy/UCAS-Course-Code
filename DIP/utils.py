@@ -2,7 +2,6 @@ import numpy as np
 
 def RGB2Gray(f, mold='NTSC'):
     """ 彩色图像转灰度图像.
-    
     参数:
         f: 输入图像
         mold: 变换方式
@@ -10,7 +9,6 @@ def RGB2Gray(f, mold='NTSC'):
             average: coe_rgb = [0.3333, 0.3333, 0.3333]
     
     返回值: 灰度图像, 数据类型为uint8.
-    
     """
     assert(mold in ['NTSC', 'average'])
     gray = np.empty(f.shape[0:2])
@@ -31,7 +29,6 @@ def RGB2Gray(f, mold='NTSC'):
 
 def Padding(f, hs, ws, mold='zero'):
     """　图像边界填充.
-
     参数: 
         f: 输入图像
         hs, ws: 填充大小
@@ -40,7 +37,6 @@ def Padding(f, hs, ws, mold='zero'):
             replicate: 最近邻填充
     
     返回值: 边界填充后的图像, 数据类型与f相同.
-
     """
     assert(mold in ['zero', 'replicate'])
 
@@ -68,7 +64,6 @@ def Padding(f, hs, ws, mold='zero'):
 
 def Conv2D(f, w, pad='zero'):
     """ 二维卷积函数, 使用滑窗法实现.
-    
     参数:
         f: 输入图像, 要求灰度图像, 即单通道.
         w: 卷积核
@@ -77,7 +72,6 @@ def Conv2D(f, w, pad='zero'):
             replicate: 最近邻填充
 
     返回值: 卷积后的图像, 数据类型为float32.
-    
     """
     assert(pad in ['zero', 'replicate'])
 
@@ -95,16 +89,13 @@ def Conv2D(f, w, pad='zero'):
 
 def Gaussian_Kernel(sig, m=-1):
     """ 生成指定参数的高斯核.
-    
     参数:
         sig : 高斯核标准差
         m: 高斯核尺寸(m, m)
             -1: 当m为默认值, 高斯核尺寸由方差计算而来.
     
     返回值: 高斯核, 数据类型为float32.
-    
     """
-    
     if m == -1:
         m = int(np.ceil(sig * 3) * 2 + 1)
     elif m < np.ceil(sig * 3) * 2 + 1:
@@ -124,13 +115,11 @@ def Gaussian_Kernel(sig, m=-1):
 
 def Threshold(f, thre):
     """ 简单的二值化处理，前景(大于阈值)为1，背景(小于或等于阈值)为0.
-
     参数:
         f: 输入图像, 要求是灰度图像.
         thre: 阈值
 
     返回值: 二值化结果, 数据类型与f相同, 但其值只有0/1.
-
     """
     f_flatten = f.flatten()
     binary = np.ones_like(f_flatten)
@@ -191,3 +180,12 @@ def FFTShift(F):
     Fshift[Mmid:M, Nmid:N] = F[0:Mmid_, 0:Nmid_]
 
     return Fshift
+
+def Subplot(fig, f, nrows, ncols, index, name='', cmp='gray'):
+    """ 绘图
+    """
+    ax = fig.add_subplot(nrows, ncols, index)
+    ax.imshow(f, cmp)
+    ax.set_title(name)
+    ax.set_xticks([])
+    ax.set_yticks([])

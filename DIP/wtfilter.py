@@ -3,16 +3,15 @@ import numpy as np
 import pywt
 from skimage import io
 
-from utils import RGB2Gray, Subplot, Padding
+from utils import Padding, RGB2Gray, Subplot
+
 
 def Wtfilter(f, level, wavelet):
     """ 小波域维纳滤波.
-    
     参数:
         f: 滤波图像
         level: 小波分解层数
         wavelet: 小波种类
-
     """
     coef_list = []
     f_reconstruct = f.copy()
@@ -48,7 +47,7 @@ def Wtfilter(f, level, wavelet):
 
 if __name__ == '__main__':
     # 读取图像, 并转化为灰度图像
-    lena = io.imread('./DIP/image/lena512color.tiff')
+    lena = io.imread('./image/lena512color.tiff')
     lena_gray = RGB2Gray(lena).astype(np.float64)
     fig = plt.figure()
     Subplot(fig, lena_gray, 2, 3, 1, 'lena')
